@@ -71,6 +71,12 @@ class MainActivity : AppCompatActivity() {
 
         nameView.text = nameAnimals[0]
         descriptionView.text = descriptionAnimals[0]
+        Picasso.get()
+            .load(imageAnimals[currentPage])
+            .fit().centerCrop()
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.error)
+            .into(imageView)
 
         nextBtn.setOnClickListener {
             currentPage = if ((currentPage + 1) > nameAnimals.lastIndex) 0 else currentPage + 1

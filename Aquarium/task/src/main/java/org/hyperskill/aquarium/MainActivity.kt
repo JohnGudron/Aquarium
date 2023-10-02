@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.viewpager2.widget.ViewPager2
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        var currentPage = 0
 
         val imageAnimals =
             (intent.getSerializableExtra("imageAnimals") ?: listOf(
@@ -63,46 +62,9 @@ class MainActivity : AppCompatActivity() {
                     "One kaluga that was caught in China is estimated to be over 100 years old."
         )) as List<String>
 
-        val nameView = findViewById<TextView>(R.id.tv_name)
-        val descriptionView = findViewById<TextView>(R.id.tv_description)
-        val imageView = findViewById<ImageView>(R.id.image_view)
-        val nextBtn = findViewById<Button>(R.id.btn_next)
-        val prevBtn = findViewById<Button>(R.id.btn_previous)
+        val viewPager2 = findViewById<ViewPager2>(R.id.viewpager2)
+        val viewPager2Adapter = ViewPagerAdapter(nameAnimals, descriptionAnimals, imageAnimals)
+        viewPager2.adapter = viewPager2Adapter
 
-        nameView.text = nameAnimals[0]
-        descriptionView.text = descriptionAnimals[0]
-        Picasso.get()
-            .load(imageAnimals[currentPage])
-            .fit().centerCrop()
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.error)
-            .into(imageView)
-
-        nextBtn.setOnClickListener {
-            currentPage = if ((currentPage + 1) > nameAnimals.lastIndex) 0 else currentPage + 1
-            Picasso.get()
-                .load(imageAnimals[currentPage])
-                .fit().centerCrop()
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error)
-                .into(imageView)
-
-            nameView.text = nameAnimals[currentPage]
-            descriptionView.text = descriptionAnimals[currentPage]
-
-        }
-
-        prevBtn.setOnClickListener {
-            currentPage = if ((currentPage - 1) < 0) nameAnimals.lastIndex else currentPage - 1
-            Picasso.get()
-                .load(imageAnimals[currentPage])
-                .fit().centerCrop()
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error)
-                .into(imageView)
-
-            nameView.text = nameAnimals[currentPage]
-            descriptionView.text = descriptionAnimals[currentPage]
-        }
     }
 }

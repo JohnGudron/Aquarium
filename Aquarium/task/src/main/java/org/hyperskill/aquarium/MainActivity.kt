@@ -1,12 +1,10 @@
 package org.hyperskill.aquarium
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.squareup.picasso.Picasso
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +20,11 @@ class MainActivity : AppCompatActivity() {
                 "https://ucarecdn.com/c5fd39b9-7690-4616-b7dc-d3f8da883146/"
             )) as List<String>
         val nameAnimals =
-            (intent.getSerializableExtra("nameAnimals") ?: listOf("Koi Carp", "Spiny Dogfish", "Kaluga")) as List<String>
+            (intent.getSerializableExtra("nameAnimals") ?: listOf(
+                "Koi Carp",
+                "Spiny Dogfish",
+                "Kaluga"
+            )) as List<String>
         val descriptionAnimals = (intent.getSerializableExtra("descriptionAnimals") ?: listOf(
 
             //Koi Carp
@@ -64,7 +66,11 @@ class MainActivity : AppCompatActivity() {
 
         val viewPager2 = findViewById<ViewPager2>(R.id.viewpager2)
         val viewPager2Adapter = ViewPagerAdapter(nameAnimals, descriptionAnimals, imageAnimals)
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         viewPager2.adapter = viewPager2Adapter
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+            tab.text = nameAnimals[position] // Set the tab text based on your data
+        }.attach()
 
     }
 }
